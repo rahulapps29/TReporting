@@ -1,8 +1,10 @@
 const express = require("express");
+
 const app = express();
 const tasks = require("./routes/tasks");
 const connectDB = require("./db/connect");
 require("dotenv").config();
+require("express-async-errors");
 const notFound = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 const cors = require("cors");

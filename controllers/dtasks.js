@@ -2,11 +2,6 @@ const Task = require("../models/Task");
 const asyncWrapper = require("../middleware/async");
 const { createCustomError } = require("../errors/custom-error");
 
-// const getAlldynamicIn = async (req, res) => {
-//   const tasks = await Task.find({});
-//   return res.status(200).json({ tasks });
-// };
-
 const getAlldynamicIn = async (req, res) => {
   console.log(req.query);
 
@@ -91,7 +86,7 @@ const getAlldynamicIn = async (req, res) => {
   console.log(page);
   console.log(limit);
   const tasks = await result;
-  res.status(200).json({ tasks });
+  res.status(200).json({ tasks, nbHits: tasks.length });
 };
 
 const getAlldynamic = asyncWrapper(getAlldynamicIn);

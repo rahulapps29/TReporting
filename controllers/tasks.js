@@ -2,26 +2,16 @@ const Task = require("../models/Task");
 const asyncWrapper = require("../middleware/async");
 const { createCustomError } = require("../errors/custom-error");
 
-// const getAlldynamicIn = async (req, res) => {
-//   const tasks = await Task.find({});
-//   return res.status(200).json({ tasks });
-// };
-
-// const getAlldynamic = asyncWrapper(getAlldynamicIn);
-
-const getAllTasksIn = async (req, res) => {
+const getAllTasks = async (req, res, next) => {
   const tasks = await Task.find({});
-  //  desc: ["icici7003", "idfc1410"]
-  return res.status(200).json({ tasks });
+  return res.status(200).json({ tasks, nbHits: tasks.length });
 };
-const getAllTasks = asyncWrapper(getAllTasksIn);
 
-const createTask = asyncWrapper(async (req, res) => {
+const createTask = async (req, res) => {
   const task = await Task.create(req.body);
-  res.status(201).json({ task });
-});
+};
 
-const getTask = asyncWrapper(async (req, res) => {
+const getTask = async (req, res, next) => {
   const { id: taskID } = req.params;
   const task = await Task.findOne({ _id: taskID });
   if (!task) {
@@ -29,16 +19,16 @@ const getTask = asyncWrapper(async (req, res) => {
   }
 
   res.status(200).json({ task });
-});
-const deleteTask = asyncWrapper(async (req, res) => {
+};
+const deleteTask = async (req, res, next) => {
   const { id: taskID } = req.params;
   const task = await Task.findOneAndDelete({ _id: taskID });
   if (!task) {
     return next(createCustomError(`No task with id : ${taskID}`, 404));
   }
   res.status(200).json({ task });
-});
-const updateTask = asyncWrapper(async (req, res, next) => {
+};
+const updateTask = async (req, res, next) => {
   const { id: taskID } = req.params;
 
   const task = await Task.findOneAndUpdate({ _id: taskID }, req.body, {
@@ -51,7 +41,7 @@ const updateTask = asyncWrapper(async (req, res, next) => {
   }
 
   res.status(200).json({ task });
-});
+};
 
 module.exports = {
   getAllTasks,
@@ -59,5 +49,4 @@ module.exports = {
   getTask,
   updateTask,
   deleteTask,
-  // getAlldynamic,
 };
