@@ -121,7 +121,6 @@ formDOM.addEventListener("submit", async (e) => {
       });
       showTasks();
       alert("Entry Added successfully");
-      // You can add your deletion logic here
     }
     taskInputDOM.value = "";
     taskInputAmt.value = "";
@@ -131,6 +130,7 @@ formDOM.addEventListener("submit", async (e) => {
     formAlertDOM.style.display = "block";
     formAlertDOM.textContent = `success, task added`;
     formAlertDOM.classList.add("text-success");
+    // You can add your deletion logic here
   } catch (error) {
     formAlertDOM.style.display = "block";
     formAlertDOM.innerHTML = `error, please try again`;
