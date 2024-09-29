@@ -60,8 +60,20 @@ tasksDOM.addEventListener("click", async (e) => {
     loadingDOM.style.visibility = "visible";
     const id = el.parentElement.dataset.id;
     try {
-      await axios.delete(`/api/tasks/${id}`);
-      showTasks();
+      const userConfirmed = confirm(
+        "Are you sure you want to delete this transaction?"
+      );
+      if (!userConfirmed) {
+        // If the user cancels, prevent the delete action
+
+        alert("Deletion canceled");
+      } else {
+        // Proceed with the deletion
+        await axios.delete(`/api/tasks/${id}`);
+        showTasks();
+        alert("Item deleted successfully");
+        // You can add your deletion logic here
+      }
     } catch (error) {
       console.log(error);
     }
@@ -89,17 +101,28 @@ formDOM.addEventListener("submit", async (e) => {
   const person = taskInputPerson.value;
   // const transtype = taskInputPerson.value;
   try {
-    await axios.post("/api/tasks", {
-      desc,
-      tdate,
-      amt,
-      year,
-      month,
-      transtype,
-      year_month,
-      date_string,
-    });
-    showTasks();
+    const userConfirmed = confirm("Are you sure you want to Add this entry?");
+    if (!userConfirmed) {
+      // If the user cancels, prevent the delete action
+
+      alert("Entry canceled");
+    } else {
+      // Proceed with the deletion
+
+      await axios.post("/api/tasks", {
+        desc,
+        tdate,
+        amt,
+        year,
+        month,
+        transtype,
+        year_month,
+        date_string,
+      });
+      showTasks();
+      alert("Entry Added successfully");
+      // You can add your deletion logic here
+    }
     taskInputDOM.value = "";
     taskInputAmt.value = "";
     taskInputDate.value = "";
